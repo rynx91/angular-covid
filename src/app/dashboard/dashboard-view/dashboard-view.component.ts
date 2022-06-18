@@ -1,5 +1,5 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractBaseComponent } from 'src/app/abstract/abstract-base.component';
 import { countryList } from 'src/app/model/country.constants';
 import { CovidHistoryByCountryInterface, CovidHistoryInterface, CovidInfoInterface } from 'src/app/model/covid.type';
 import { CovidService } from 'src/app/shared/service/covid.service';
@@ -9,11 +9,10 @@ import { CovidService } from 'src/app/shared/service/covid.service';
   templateUrl: './dashboard-view.component.html',
   styleUrls: ['./dashboard-view.component.scss']
 })
-export class DashboardViewComponent implements OnInit, OnDestroy {
+export class DashboardViewComponent extends AbstractBaseComponent implements OnInit {
 
   @Input() country:string;
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
   isLoading: boolean = false;
   statistics: CovidInfoInterface;
   globalHistory: CovidHistoryInterface;
@@ -24,7 +23,9 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private covidService: CovidService
-  ) { }
+  ) {
+    super();
+   }
 
   ngOnInit() {
     this.countryList = countryList;
@@ -35,11 +36,6 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
       this.getGlobalHistory();
       this.getStatisticsByCountry();
     }
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 
   getStatisticsByCountry() {

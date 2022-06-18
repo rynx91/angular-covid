@@ -4,6 +4,7 @@ import { CovidService } from 'src/app/shared/service/covid.service';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { AbstractBaseComponent } from 'src/app/abstract/abstract-base.component';
 
 am4core.useTheme(am4themes_animated);
 
@@ -12,7 +13,7 @@ am4core.useTheme(am4themes_animated);
   templateUrl: './continents-view.component.html',
   styleUrls: ['./continents-view.component.scss']
 })
-export class ContinentsViewComponent implements OnInit, OnDestroy {
+export class ContinentsViewComponent extends AbstractBaseComponent implements OnInit, OnDestroy {
 
   statistics: CovidInfoInterface[];
   private chart: am4charts.XYChart;
@@ -22,7 +23,9 @@ export class ContinentsViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private covidService: CovidService
-  ) { }
+  ) {
+    super();
+   }
 
   ngOnInit() {
     this.covidService.getStatisticsForContinents().subscribe(res => {

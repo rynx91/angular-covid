@@ -1,19 +1,16 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, PageEvent, Sort } from '@angular/material';
-import { Subject } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { AbstractBaseComponent } from '../abstract/abstract-base.component';
 import { CovidInfoInterface } from '../model/covid.type';
 import { CovidService } from '../shared/service/covid.service';
-import { LoadingService } from '../shared/service/loading.service';
 
 @Component({
   selector: 'app-table-view',
   templateUrl: './table-view.component.html',
   styleUrls: ['./table-view.component.scss']
 })
-export class TableViewComponent implements OnInit, OnDestroy, AfterViewInit {
+export class TableViewComponent extends AbstractBaseComponent implements OnInit, AfterViewInit {
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
   @ViewChild('paginator', {static: false}) paginator: MatPaginator;
 
   allCountryList: CovidInfoInterface[];
@@ -31,18 +28,13 @@ export class TableViewComponent implements OnInit, OnDestroy, AfterViewInit {
   pageIndex = 0;
 
   constructor(
-    private covidService: CovidService,
-    private loadingService: LoadingService
-  ) { }
-
-  ngOnInit() {
-    this.listenToLoading();
-    this.getTableView(this.period);
+    private covidService: CovidService
+  ) { 
+    super();
   }
 
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+  ngOnInit() {
+    this.getTableView(this.period);
   }
 
   ngAfterViewInit(): void {   
@@ -71,14 +63,6 @@ export class TableViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.length = length;
     this.pageIndex = startIndex;
     this.pageSize = pageSize;
-  }
-
-  listenToLoading() {
-    this.loadingService.loadingSub
-      .pipe(delay(0)) 
-      .subscribe((loading) => {
-        this.isLoading = loading;
-      });
   }
 
   sortData(sort: Sort) {
@@ -128,6 +112,5 @@ export class TableViewComponent implements OnInit, OnDestroy, AfterViewInit {
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-
 
 }

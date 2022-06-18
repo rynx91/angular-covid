@@ -2,7 +2,9 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4core from "@amcharts/amcharts4/core";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AbstractBaseComponent } from "src/app/abstract/abstract-base.component";
 import { CovidHistoryByCountryInterface, CovidHistoryInterface } from 'src/app/model/covid.type';
+import { LoadingService } from "src/app/shared/service/loading.service";
 
 am4core.useTheme(am4themes_animated);
 
@@ -11,7 +13,7 @@ am4core.useTheme(am4themes_animated);
   templateUrl: './cases-charts.component.html',
   styleUrls: ['./cases-charts.component.scss']
 })
-export class CasesChartsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CasesChartsComponent extends AbstractBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() globalHistory: CovidHistoryInterface;
   @Input() countryHistory: CovidHistoryByCountryInterface;
 
@@ -19,7 +21,9 @@ export class CasesChartsComponent implements OnInit, AfterViewInit, OnDestroy {
   chartData = [];
   historyData: CovidHistoryInterface;
   
-  constructor() {}
+  constructor() {
+    super();
+  }
 
   ngOnInit() {
     if(!!this.globalHistory) {

@@ -3,20 +3,23 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { CovidInfoInterface } from 'src/app/model/covid.type';
+import { AbstractBaseComponent } from 'src/app/abstract/abstract-base.component';
 
 @Component({
   selector: 'app-accumulated-charts',
   templateUrl: './accumulated-charts.component.html',
   styleUrls: ['./accumulated-charts.component.scss']
 })
-export class AccumulatedChartsComponent implements OnInit {
+export class AccumulatedChartsComponent extends AbstractBaseComponent implements OnInit {
 
   @Input() chartData;
 
   private chart: am4charts.XYChart;
   chartColors = ["#ea5545", "#ef9b20", "#ede15b", "#87bc45", "#27aeef", "#b33dc6"];
 
-  constructor() { }
+  constructor() {
+    super();
+   }
 
   ngOnInit() {
     this.createChart();
