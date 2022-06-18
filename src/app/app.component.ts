@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { delay } from 'rxjs/operators';
 import { LoadingService } from './shared/service/loading.service';
 
@@ -11,9 +10,8 @@ import { LoadingService } from './shared/service/loading.service';
 export class AppComponent implements OnInit{
   loading:boolean = false;
   constructor(
-    private translateService: TranslateService,
     private loadingService: LoadingService) {
-    translateService.setDefaultLang('en');
+
   }
 
   ngOnInit() {

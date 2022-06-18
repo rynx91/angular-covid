@@ -3,7 +3,6 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { LoadingService } from 'src/app/shared/service/loading.service';
@@ -13,8 +12,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
   constructor(
     private loadingService: LoadingService,
-    private snackBar: MatSnackBar,
-    private translateService: TranslateService
+    private snackBar: MatSnackBar
   ) { 
   }
 
@@ -36,7 +34,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
   private openSnackBar() {
     this.snackBar.open(
-      this.translateService.instant('error.title') + '! ' + this.translateService.instant('error.tryAgain'), 
+      'Error! Please try again later.', 
       'x', {
       horizontalPosition: 'start',
       verticalPosition: 'bottom',
