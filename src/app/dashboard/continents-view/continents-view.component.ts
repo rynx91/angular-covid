@@ -80,7 +80,7 @@ export class ContinentsViewComponent implements OnInit, OnDestroy {
     labelBullet.label.text = "{values.valueX.workingValue.formatNumber('#.0as')}";
     labelBullet.locationX = 1;
 
-    var legend = new am4charts.Legend();
+    let legend = new am4charts.Legend();
     legend.parent = this.chart.chartContainer;
     legend.itemContainers.template.togglable = false;
     legend.marginTop = 20;
@@ -89,16 +89,15 @@ export class ContinentsViewComponent implements OnInit, OnDestroy {
       let legenddata = [];
       series.columns.each(function(column) {
         legenddata.push({
-          name: column.dataItem.categoryY + "\n Active Cases:" + column.dataItem.valueX,
+          name: column.column._dataItem.categories.categoryY + "\n Active Cases:" + column.column.dataItem.values.valueX.value,
           fill: column.fill
         })
       });
       legend.data = legenddata;
     });
 
-
     series.columns.template.adapter.add("fill", (fill, target) => {
-      return this.chartColors[target.dataItem.index];
+      return am4core.color(this.chartColors[target.dataItem.index]);
     });
 
     categoryAxis.sortBySeries = series;

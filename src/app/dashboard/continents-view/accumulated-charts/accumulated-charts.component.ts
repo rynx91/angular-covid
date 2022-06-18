@@ -59,16 +59,15 @@ export class AccumulatedChartsComponent implements OnInit {
       let legenddata = [];
       series.columns.each(function(column) {
         legenddata.push({
-          name: column.dataItem.categoryY + "\n Total Cases:" + column.dataItem.valueX,
+          name: column.column._dataItem.categories.categoryY + "\n Active Cases:" + column.column.dataItem.values.valueX.value,
           fill: column.fill
         })
       });
       legend.data = legenddata;
     });
 
-
     series.columns.template.adapter.add("fill", (fill, target) => {
-      return this.chartColors[target.dataItem.index];
+      return am4core.color(this.chartColors[target.dataItem.index]);
     });
 
     categoryAxis.sortBySeries = series;

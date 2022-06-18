@@ -7,24 +7,21 @@
   <div [hidden]="!allCountryList || !allCountryList.length">
     <div class="mt-4 d-flex justify-content-end">
       <button 
-      class="btn" 
+      class="btn btn__period" 
       [ngClass]="{
-        'btn__period--active': period=='',
-        'btn__period': priod!=''
+        'btn__period--active': period==''
       }"
       (click)="getTableView('')">Now</button>
       <button 
-      class="btn" 
+      class="btn btn__period" 
       [ngClass]="{
-        'btn__period--active': period=='yesterday',
-        'btn__period': priod!=''
+        'btn__period--active': period=='yesterday'
       }"
       (click)="getTableView('yesterday')">Yesterday</button>
       <button 
-      class="btn" 
+      class="btn btn__period" 
       [ngClass]="{
-        'btn__period--active': period=='twoDaysAgo',
-        'btn__period': priod!=''
+        'btn__period--active': period=='twoDaysAgo'
       }"
       (click)="getTableView('twoDaysAgo')">2 Days Ago</button>
     </div>
