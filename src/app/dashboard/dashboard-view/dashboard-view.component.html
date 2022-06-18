@@ -1,0 +1,51 @@
+<div class="d-flex justify-content-end" *ngIf="!!country" >
+  <mat-form-field>
+    <mat-select [(ngModel)]="selectedCountry" (selectionChange)="getCountryData()">
+      <mat-option *ngFor="let c of countryList" [value]="c.name.toLowerCase()">
+        {{c.flag}} {{c.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<h1 *ngIf="!!country" class="text-center mb-3">{{flag}} {{selectedCountry | titlecase}}</h1>
+<h1 *ngIf="!country" class="text-center mb-3">Global Situation</h1>
+<section>
+  <div class="row">
+    <div class="col-lg-3 col-12 mt-3">
+      <h1 class="figure">{{!!statistics ? (statistics.cases | number) : 0}}</h1>
+      <h3>confirmed cases</h3>
+    </div>
+    <div class="col-lg-9 col-12">
+      <app-cases-charts *ngIf="!!globalHistory || !!countryHistory" [globalHistory]="globalHistory" [countryHistory]="countryHistory"></app-cases-charts>
+    </div>
+  </div>
+</section>
+
+<section class="mt-5">
+  <div class="row">
+    <div class="col-lg-3 col-12 mt-3">
+      <h1 class="figure">{{!!statistics ? (statistics.deaths | number) : 0}}</h1>
+      <h3>deaths</h3>
+    </div>
+    <div class="col-lg-9 col-12">
+      <app-deaths-charts *ngIf="!!globalHistory || !!countryHistory" [globalHistory]="globalHistory" [countryHistory]="countryHistory"></app-deaths-charts>
+    </div>
+  </div>
+</section>
+
+<section class="mt-5">
+  <div class="row">
+    <div class="col-md-4 col-12 mb-3">
+      <h1 class="figure--positive">{{!!statistics ? (statistics.recovered | number) : 0}}</h1>
+      <h3>Recovered</h3>
+    </div>
+    <div class="col-md-4 col-12 mb-3">
+      <h1>{{!!statistics ? (statistics.active | number) : 0}}</h1>
+      <h3>Active Cases</h3>
+    </div>
+    <div class="col-md-4 col-12 mb-3">
+      <h1>{{!!statistics ? (statistics.todayCases | number) : 0}}</h1>
+      <h3>Today Cases</h3>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,25 @@
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+@import '~src/scss/_variables.scss';
+
+html, body { height: 100%; }
+html {
+  font-size: 16px; 
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
+}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.error-bar {
+  padding: 20px;
+  background-color: red;
+  color: $secondary-text-color;
+  .mat-button {
+    color: $secondary-text-color;
+  }
+}

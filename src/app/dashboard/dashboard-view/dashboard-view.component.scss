@@ -1,0 +1,11 @@
+@import '~src/scss/_variables.scss';
+
+.figure {
+  color: #696969;
+  font-weight: bold;
+}
+
+.figure--positive {
+  color: $primary-color;
+  font-weight: bold;
+}

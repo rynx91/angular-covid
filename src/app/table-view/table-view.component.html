@@ -1,0 +1,192 @@
+<div class="container">
+  <div class="mt-4">
+    <h2>
+      Situation by Country
+    </h2>
+  </div>
+  <div [hidden]="!allCountryList || !allCountryList.length">
+    <div class="mt-4 d-flex justify-content-end">
+      <button 
+      class="btn" 
+      [ngClass]="{
+        'btn__period--active': period=='',
+        'btn__period': priod!=''
+      }"
+      (click)="getTableView('')">Now</button>
+      <button 
+      class="btn" 
+      [ngClass]="{
+        'btn__period--active': period=='yesterday',
+        'btn__period': priod!=''
+      }"
+      (click)="getTableView('yesterday')">Yesterday</button>
+      <button 
+      class="btn" 
+      [ngClass]="{
+        'btn__period--active': period=='twoDaysAgo',
+        'btn__period': priod!=''
+      }"
+      (click)="getTableView('twoDaysAgo')">2 Days Ago</button>
+    </div>
+    <table #dataTable mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+      <ng-container matColumnDef="index">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5>#</h5>
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index;">
+          {{pageSize *(pageIndex) + (i+1)}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="country">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>Country</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="custom-column">
+          <a href="/by-country/{{element.country.toLowerCase()}}">{{element.country}}</a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cases">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>Total Cases</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="custom-column">
+          {{element.cases | number}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="todayCases">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>New Cases</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="custom-column"
+        [ngClass]="{
+          'figure--new': (!!element.todayCases && element.todayCases > 0)
+        }">
+          {{element.todayCases | number}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="deaths">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>Total Deaths</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="custom-column">
+          {{element.deaths | number}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="todayDeaths">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>New Deaths</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="custom-column"
+        [ngClass]="{
+          'figure--death': (!!element.todayDeaths && element.todayDeaths > 0)
+        }">
+          {{element.todayDeaths | number}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="recovered">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>Total Recovered</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="custom-column">
+          {{element.recovered | number}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="todayRecovered">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>New Recovered</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="custom-column"
+        [ngClass]="{
+          'figure--recovered': (!!element.todayRecovered && element.todayRecovered > 0)
+        }">
+          {{element.todayRecovered | number}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>Active Cases</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="custom-column">
+          {{element.active | number}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="critical">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>Serious Critical</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="custom-column">
+          {{element.critical | number}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="casesPerOneMillion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>Tot cases/1m pop</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="custom-column">
+          {{element.casesPerOneMillion | number}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="deathsPerOneMillion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>Deaths/1m pop</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="custom-column">
+          {{element.deathsPerOneMillion | number}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="tests">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>Total Tests</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="custom-column">
+          {{element.tests | number}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="testsPerOneMillion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>Tests/1m pop</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="custom-column">
+          {{element.testsPerOneMillion | number}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="population">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>Population</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="custom-column">
+          {{element.population | number}}
+        </td>
+      </ng-container>
+
+
+      <tbody>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" 
+          [ngClass]="{'row--blue': i%2 !== 0 }">
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator #paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" (page)="updatePageInfo($event)"
+      [length]="length" showFirstLastButtons>
+    </mat-paginator>
+  </div>
+  <div [hidden]="!!allCountryList && !!allCountryList.length" class="text-center">
+    <h2>Nothing to display</h2>
+  </div>
+</div>
